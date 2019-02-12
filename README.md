@@ -1,2 +1,2 @@
-# pharmacy
-Web application to manage a private pharmacy inventory
+# My Web Pharmacy
+Stock system for personal pharmacy tracking.
