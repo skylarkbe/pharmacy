@@ -15,7 +15,7 @@ class Pharmaceutical(models.Model):
 class Medicine(models.Model):
     type = models.ForeignKey(Pharmaceutical, on_delete=models.CASCADE)
     insertDate = models.DateField(auto_now_add=True)
-    expirationDate = models.DateField(auto_now_add=True)
+    expirationDate = models.DateField()
 
     class Meta:
         abstract = True
