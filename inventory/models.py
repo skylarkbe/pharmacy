@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Pharmaceutical(models.Model):
@@ -16,6 +17,11 @@ class Medicine(models.Model):
     type = models.ForeignKey(Pharmaceutical, on_delete=models.CASCADE)
     insertDate = models.DateField(auto_now_add=True)
     expirationDate = models.DateField()
+
+    def is_medicine_expired(self):
+        if self.expirationDate is not None :
+            return timezone.now().date() > self.expirationDate
+    is_expired = property(is_medicine_expired)
 
     class Meta:
         abstract = True
