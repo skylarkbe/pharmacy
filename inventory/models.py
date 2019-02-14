@@ -8,16 +8,26 @@ class Pharmaceutical(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Pharmaceuticals"
+
 
 class Medicine(models.Model):
     type = models.ForeignKey(Pharmaceutical, on_delete=models.CASCADE)
     insertDate = models.DateField(auto_now_add=True)
     expirationDate = models.DateField(auto_now_add=True)
 
+    class Meta:
+        abstract = True
+        verbose_name_plural = "Medicines"
+
 
 class Pill(Medicine):
     def __str__(self):
         return "(ID:" + self.id.__str__() + ") " + self.type.__str__() + " Exp.: " + self.expirationDate.__str__()
+
+    class Meta:
+        verbose_name_plural = "Pills"
 
 
 class Syrup(Medicine):
@@ -27,3 +37,8 @@ class Syrup(Medicine):
     def __str__(self):
         return "(ID:" + self.id.__str__() + ") " + self.type__str__() + " Exp.: " + self.expirationDate.__str__() + \
                " Opened: " + self.expirationDate.__str__()
+
+    class Meta:
+        verbose_name_plural = "Syrups"
+
+

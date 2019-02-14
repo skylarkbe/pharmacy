@@ -6,6 +6,7 @@ This software is built with the [Django](https://www.djangoproject.com/) Framewo
 ## Tips and tricks
 Launch `pip install django` to make you started.
 
+* Run `py manage.py makemigrations` to create database migrations, then `py manage.py migrate` to apply them
 * First user (superadmin) can be created by `py manage.py createsuperuser`
 * Development server is started by `py manage.py runserver`
 
