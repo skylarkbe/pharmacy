@@ -20,7 +20,7 @@ class Medicine(models.Model):
     expirationDate = models.DateField()
 
     def is_medicine_expired(self):
-        if self.expirationDate is not None :
+        if self.expirationDate is not None:
             return timezone.now().date() > self.expirationDate
     is_medicine_expired.boolean = True
     is_expired = property(is_medicine_expired)
@@ -43,10 +43,10 @@ class Syrup(Medicine):
     validity = models.IntegerField()
 
     def is_medicine_expired(self):
-        # Syrup has a specific  expiration date : either it is expired dy its date, or it is opened for too long
-        if self.openedDate is not None :
-            return ( self.openedDate + timedelta(days=self.validity) ) < timezone.now().date()
-        elif self.expirationDate is not None :
+        # Syrup has a specific  expiration date : either it is expired by its date, or it is opened for too long
+        if self.openedDate is not None:
+            return (self.openedDate + timedelta(days=self.validity)) < timezone.now().date()
+        elif self.expirationDate is not None:
             return timezone.now().date() > self.expirationDate
     is_medicine_expired.boolean = True
     is_expired = property(is_medicine_expired)
@@ -57,5 +57,3 @@ class Syrup(Medicine):
 
     class Meta:
         verbose_name_plural = "Syrups"
-
-
