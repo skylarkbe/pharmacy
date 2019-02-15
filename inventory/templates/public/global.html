@@ -1,0 +1,26 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% trans "MyPharmacy Index" %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'inventory/ionicons-2.0.1/css/ionicons.min.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}" />
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <h1>{% trans "MyPharmacy Inventory" %}</h1>
+            </div>
+            {% block header %}{% endblock %}
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            {%  include "core/footer.html" %}
+        </footer>
+    </body>
+</html>

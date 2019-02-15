@@ -1,0 +1,14 @@
+{% load i18n %}
+<div class="actionBar container">
+    <div class="row">
+        <div class="col text-left">
+            <button type="button" class="btn btn-secondary"><i class="icon ion-android-add-circle"></i>{% trans "Add Pharmaceutical" %}</button>
+            <button type="button" class="btn btn-secondary"><i class="icon ion-android-add-circle"></i>{% trans "Add Medicine" %}</button>
+        </div>
+        <div class="col text-right">
+            {% trans "Show" %}&colon;&nbsp;
+            <span title="{% trans "Syrup" %}" ><button type="button" class="btn btn-secondary"><i class="ion-ios-flask"></i></button></span>
+            <span title="{% trans "Pill" %}" ><button type="button" class="btn btn-secondary"><i class="ion-ios-medkit"></i></button></span>
+        </div>
+    </div>
+</div>
