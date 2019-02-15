@@ -1,5 +1,9 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+
+from .models import Syrup
 
 
-def index( request ):
-    return HttpResponse("Hello world, your're at the inventory index")
+def index(request):
+    all_medicines = Syrup.objects.all()
+    context = {'all_medicines': all_medicines, }
+    return render(request, 'inventory/index.html', context)

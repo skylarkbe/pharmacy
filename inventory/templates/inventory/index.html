@@ -1,0 +1,47 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% trans "MyPharmacy Index" %}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'inventory/ionicons-2.0.1/css/ionicons.min.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'inventory/css/inventory.css' %}" />
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <h1>{% trans "MyPharmacy Inventory" %}</h1>
+            </div>
+            <div class="actionBar container">
+                <div class="row">
+                    <div class="col text-left">
+                        <button type="button" class="btn btn-primary"><i class="icon ion-android-add-circle"></i>{% trans "Add Pharmaceutical" %}</button>
+                    </div>
+                    <div class="col text-right">
+                        Filters
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="container">
+                <div>
+                    {% if all_medicines %}
+                        <ul>
+                            {% for medicine in all_medicines %}
+                            <li>{{ medicine }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No medicine in the pharmacy</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="container">&copy; 2019</div>
+        </footer>
+    </body>
+</html>

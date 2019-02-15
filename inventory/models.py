@@ -49,7 +49,6 @@ class Syrup(Medicine):
         elif self.expirationDate is not None:
             return timezone.now().date() > self.expirationDate
     is_medicine_expired.boolean = True
-    is_expired = property(is_medicine_expired)
 
     def __str__(self):
         return "(ID:" + self.id.__str__() + ") " + self.type.__str__() + " Exp.: " + self.expirationDate.__str__() + \
