@@ -13,3 +13,10 @@ Launch `pip install django` to make you started.
 ## URLs and paths
 
 Once the server is started, application is available at [localhost:8000](http://localhost:8000/) and admin panel is available at [localhost:8000/admin](http://localhost:8000/admin/).
+
+## Credits
+
+This project utilises the following projects and technologies:
+* Django - https://www.djangoproject.com/
+* Bootstrap - https://getbootstrap.com/
+* IonIcon - https://ionicons.com/
