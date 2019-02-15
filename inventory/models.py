@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from model_utils.managers import InheritanceManager
 
 
 class Pharmaceutical(models.Model):
@@ -15,6 +16,7 @@ class Pharmaceutical(models.Model):
 
 
 class Medicine(models.Model):
+    objects = InheritanceManager()
     type = models.ForeignKey(Pharmaceutical, on_delete=models.CASCADE)
     insertDate = models.DateField(auto_now_add=True)
     expirationDate = models.DateField()

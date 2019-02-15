@@ -5,7 +5,7 @@ from .models import Medicine
 
 
 def index(request):
-    all_medicines = Medicine.objects.all()
+    all_medicines = Medicine.objects.all().select_subclasses()
     context = {'all_medicines': all_medicines, }
     return render(request, 'inventory/index.html', context)
 

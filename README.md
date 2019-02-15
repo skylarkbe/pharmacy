@@ -3,9 +3,12 @@ Stock system for personal pharmacy tracking.
 
 This software is built with the [Django](https://www.djangoproject.com/) Framework and distributed under GPLv3. Framework documentation is available on the [official website](https://docs.djangoproject.com).
 
-## Tips and tricks
-Launch `pip install django` to make you started.
+## Dependencies
+The following dependencies are required to run the project properly:
+* Django core ( Run `pip install django` to install )
+* Django model utils ( Run `pip install django-model-utils` to install )
 
+## Tips and tricks
 * Run `py manage.py makemigrations` to create database migrations, then `py manage.py migrate` to apply them
 * First user (superadmin) can be created by `py manage.py createsuperuser`
 * Development server is started by `py manage.py runserver`
