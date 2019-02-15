@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-from .models import Syrup
+from .models import Medicine
 
 
 def index(request):
-    all_medicines = Syrup.objects.all()
+    all_medicines = Medicine.objects.all()
     context = {'all_medicines': all_medicines, }
     return render(request, 'inventory/index.html', context)

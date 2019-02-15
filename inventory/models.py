@@ -26,7 +26,7 @@ class Medicine(models.Model):
     is_expired = property(is_medicine_expired)
 
     class Meta:
-        abstract = True
+        # This class may not be abstract as we will use it to generate searches
         verbose_name_plural = "Medicines"
 
 
