@@ -5,8 +5,8 @@ This software is built with the [Django](https://www.djangoproject.com/) Framewo
 
 ## Dependencies
 The following dependencies are required to run the project properly:
-* Django core ( Run `pip install django` to install )
-* Django model utils ( Run `pip install django-model-utils` to install )
+* [Django core](https://pypi.org/project/Django/) ( Run `pip install django` to install )
+* [Django model utils](https://pypi.org/project/django-model-utils/) ( Run `pip install django-model-utils` to install )
 
 ## Tips and tricks
 * Run `py manage.py makemigrations` to create database migrations, then `py manage.py migrate` to apply them
