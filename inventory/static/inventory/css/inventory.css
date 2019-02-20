@@ -1,5 +1,9 @@
+html { position: relative; min-height: 100%; }
+body { margin-bottom: 60px; }
 header { margin-top: 0.75em ; margin-bottom: 0.75em ; }
-footer { background-color: #23272b;; color: hsla(0,0%,100%,.7); padding-top: 0.75em ; padding-bottom: 0.75em ; font-size: 0.85em; }
+footer { background-color: #23272b;; color: hsla(0,0%,100%,.7); font-size: 0.85em; }
+footer.footer { position: absolute; bottom: 0; width: 100%; height: 46px; }
+footer.footer p.text-muted { margin: 0.75em 0;}
 
 div.actionBar { padding-top: 1em ; }
 i.icon { margin-right: 0.5em; }
