@@ -18,6 +18,7 @@ class Pharmaceutical(models.Model):
 class Medicine(models.Model):
     objects = InheritanceManager()
     type = models.ForeignKey(Pharmaceutical, on_delete=models.CASCADE)
+    amount = models.PositiveIntegerField(default=0)
     insertDate = models.DateField(auto_now_add=True)
     expirationDate = models.DateField()
 
@@ -40,6 +41,16 @@ class Pill(Medicine):
         verbose_name_plural = "Pills"
 
 
+class Bandage(Medicine):
+    openedDate = models.DateField(null=True, blank=True)
+
+    def __str___(self):
+        return "(ID:" + self.id.__str__() + ") " + self.type.__str__() + " Exp.: " + self.expirationDate.__str__()
+
+    class Meta:
+        verbose_name_plural = "Bandages"
+
+
 class Syrup(Medicine):
     openedDate = models.DateField(null=True, blank=True)
     validity = models.IntegerField()
@@ -58,3 +69,19 @@ class Syrup(Medicine):
 
     class Meta:
         verbose_name_plural = "Syrups"
+
+
+class Tool(Medicine):
+    is_sterile = models.BooleanField(default=False)
+    openedDate = models.DateField(null=True, blank=True)
+
+    def is_medicine_expired(self):
+        # Tool never expires
+        return False
+    is_medicine_expired.boolean = True
+
+    def __str___(self):
+        return "(ID:" + self.id.__str__() + ") " + self.type.__str__()
+
+    class Meta:
+        verbose_name_plural = "Tools"
