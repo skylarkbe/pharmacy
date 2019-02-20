@@ -14,7 +14,7 @@
             <thead>
                 <tr>
                     <th scope="col">{% trans "Item" %}</th>
-                    <th class="text-center" scope="col" style="width: 8.33%">{% trans "Expires" %}</th>
+                    <th class="text-center" scope="col" style="width: 11.33%">{% trans "Expires" %}</th>
                     <th class="text-center" scope="col" style="width: 8.33%">{% trans "Status" %}</th>
                     <th class="text-center" scope="col" style="width: 8.33%">{% trans "Amount" %}</th>
                     <th class="text-center" scope="col" style="width: 8.33%">{% trans "Type" %}</th>
@@ -25,14 +25,29 @@
             <tbody>
                 {% for stock in all_stock %}
                     <tr>
-                        <td>{{ stock.type.name }}</td>
+                        <td>
+                            {{ stock.type.name }}
+                            {% if stock.validity is not None %}
+                                {% if stock.openedDate is None %}
+                                    <span title="{% trans 'Open' %}"><a href="#"><i class="ion-share" ></i></a></span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
                         <td class="text-center">
                             {{ stock.expirationDate | date:"d-m-Y" }}
                         </td>
-                        {% if stock.is_expired %}
-                            <td class="text-center table-danger"><span title="{%  trans 'Expired !' %}"><i class="ion-close-circled" ></i></span></td>
+                        {% if stock.is_medicine_expired %}
+                            {% if stock.validity is not None %}
+                                <td class="text-center table-danger"><span title="{% trans 'Expired after opening' %}"><i class="ion-clock" ></i></span></td>
+                            {% else %}
+                                <td class="text-center table-danger"><span title="{% trans 'Expired' %}"><i class="ion-close" ></i></span></td>
+                            {% endif %}
                         {% else %}
-                            <td class="text-center table-success"><span title="{%  trans 'Not expired' %}"><i class="ion-checkmark-circled" ></i></span></td>
+                            {% if stock.validity is not None and stock.openedDate is not None %}
+                                <td class="text-center table-success"><span title="{% blocktrans with opened_date=stock.openedDate|date:"d-m-Y" validity=stock.validity%}Opened on {{ opened_date }}, expires after {{ validity }} days{% endblocktrans %}"><i class="ion-clock" ></i></span></td>
+                            {%  else %}
+                                <td class="text-center table-success"><span title="{% trans 'Expires ' %}{{ stock.expirationDate | date:"d-m-Y" }}"><i class="ion-checkmark" ></i></span></td>
+                            {% endif %}
                         {% endif %}
                         <td class="text-center">{{ stock.amount }}</td>
                         <td class="text-center table-dark">
@@ -48,7 +63,7 @@
             </tbody>
         </table>
     {% else %}
-        <p>No medicine in the pharmacy</p>
+        <p>{% trans "No medicine in the pharmacy" %}</p>
     {% endif %}
     </div>
 {% endblock %}

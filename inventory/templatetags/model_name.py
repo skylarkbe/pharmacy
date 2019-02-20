@@ -10,12 +10,9 @@ def to_class_name(value):
 
 @register.filter
 def get_icon_for_class(value):
-    ion_mapping = {
-        "Pill": 'ion-ios-keypad',
+    return {
+        "Pill": 'ion-egg',
         "Tool": 'ion-scissors',
-        "Syrup" : 'ion-ios-flask',
-        "Bandage" : 'ion-ios-medkit',
-    }
-    if value.__class__.__name__ in ion_mapping :
-        return ion_mapping[value.__class__.__name__]
-    return 'ion-help-circled'
+        "Syrup": 'ion-ios-flask',
+        "Bandage": 'ion-ios-medkit',
+    }.get(value.__class__.__name__,'ion-help-circled')
