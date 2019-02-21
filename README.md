@@ -1,4 +1,8 @@
 # My Web Pharmacy
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/skylarkbe/pharmacy/master/LICENSE)
+[![GitHub All Releases](https://img.shields.io/github/downloads/skylarkbe/pharmacy/total.svg)](https://github.com/skylarkbe/pharmacy/archive/master.zip)
+
 Stock system for personal pharmacy tracking.
 
 This software is built with the [Django](https://www.djangoproject.com/) Framework and distributed under GPLv3. Framework documentation is available on the [official website](https://docs.djangoproject.com).
