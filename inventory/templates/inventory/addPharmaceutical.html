@@ -1,0 +1,33 @@
+{% extends "public/global.html" %}
+{% load i18n %}
+
+{% block header %}
+    <div class="container">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'inventory:index' %}" >{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item active">{% trans "Add pharmaceutical" %}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>{% trans "Add pharmaceutical" %}</h2>
+        <form method="post" action="{% url 'inventory:addPharmaceutical' %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="{{ add_pharmaceutical_form.inputPharmaceuticalName.id_for_label }}">{% trans "Pharmaceutical Name" %}</label>
+                    {{ add_pharmaceutical_form.inputPharmaceuticalName }}
+                </div>
+            </div>
+            <div class="form-check">
+                {{ add_pharmaceutical_form.requiresMedicalPrescription }}
+                <label class="form-check-label" for="{{ add_pharmaceutical_form.requiresMedicalPrescription.id_for_label }}">{% trans "This pharmaceutical requires a medical prescription" %}</label>
+            </div>
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary">{% trans "Add pharmaceutical" %}</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
