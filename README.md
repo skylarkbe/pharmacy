@@ -28,3 +28,4 @@ This project utilises the following projects and technologies:
 * Bootstrap - https://getbootstrap.com/
 * Bootstrap Date Picker plugin - https://github.com/uxsolutions/bootstrap-datepicker
 * IonIcon - https://ionicons.com/
+* Cookie Consent by Insites - https://cookieconsent.insites.com/
