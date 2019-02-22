@@ -26,4 +26,5 @@ Once the server is started, application is available at [localhost:8000](http://
 This project utilises the following projects and technologies:
 * Django - https://www.djangoproject.com/
 * Bootstrap - https://getbootstrap.com/
+* Bootstrap Date Picker plugin - https://github.com/uxsolutions/bootstrap-datepicker
 * IonIcon - https://ionicons.com/

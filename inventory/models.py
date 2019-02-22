@@ -42,6 +42,7 @@ class Pill(Medicine):
 
 
 class Bandage(Medicine):
+    is_sterile = models.BooleanField(default=False)
     openedDate = models.DateField(null=True, blank=True)
 
     def __str___(self):

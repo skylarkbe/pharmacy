@@ -7,3 +7,6 @@ footer.footer p.text-muted { margin: 0.75em 0;}
 
 div.actionBar { padding-top: 1em ; }
 i.icon { margin-right: 0.5em; }
+.form-check-inline-margin { margin: 2.4rem 0 0 0; }
+td .btn {padding: 0 !important;}
+td .btn-link { color: #212529; }

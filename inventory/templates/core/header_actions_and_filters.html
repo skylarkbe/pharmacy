@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col text-left">
             <a href="{% url 'inventory:addPharmaceutical' %}" class="btn btn-secondary"><i class="icon ion-android-add-circle"></i>{% trans "Add Pharmaceutical" %}</a>
-            <button type="button" class="btn btn-secondary"><i class="icon ion-android-add-circle"></i>{% trans "Add Medicine" %}</button>
+            <a href="{% url 'inventory:addMedicine' %}" class="btn btn-secondary"><i class="icon ion-android-add-circle"></i>{% trans "Add Medicine" %}</a>
         </div>
         <div class="col text-right">
             {% trans "Show" %}&colon;&nbsp;

@@ -1,4 +1,5 @@
 from django import template
+from ..constants import MEDICINE_TO_ICON, MEDICINE_DEFAULT_ICON
 
 register = template.Library()
 
@@ -10,9 +11,4 @@ def to_class_name(value):
 
 @register.filter
 def get_icon_for_class(value):
-    return {
-        "Pill": 'ion-egg',
-        "Tool": 'ion-scissors',
-        "Syrup": 'ion-ios-flask',
-        "Bandage": 'ion-ios-medkit',
-    }.get(value.__class__.__name__,'ion-help-circled')
+    return MEDICINE_TO_ICON.get(value.__class__.__name__, MEDICINE_DEFAULT_ICON)

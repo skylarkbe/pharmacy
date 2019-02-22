@@ -8,8 +8,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
     {% if all_stock %}
+    <div class="container">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -53,17 +53,19 @@
                         <td class="text-center table-dark">
                             <span title="{{ stock | to_class_name }}"><i class="{{ stock | get_icon_for_class }}"></i></span>
                         <td class="text-center table-secondary">
-                            <i class="ion-android-add"></i>
+                            <button class="btn btn-link"><i class="ion-android-add"></i></button>
                         </td>
                         <td class="text-center table-secondary">
-                            <i class="ion-android-remove"></i>
+                            <button class="btn btn-link"><i class="ion-android-remove"></i></button>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
-    {% else %}
-        <p>{% trans "No medicine in the pharmacy" %}</p>
-    {% endif %}
     </div>
+    {% else %}
+    <div class="container">
+        <p>{% trans "No medicine in the pharmacy" %}</p>
+    </div>
+    {% endif %}
 {% endblock %}

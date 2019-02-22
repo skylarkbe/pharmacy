@@ -1,0 +1,126 @@
+{% extends "public/global.html" %}
+{% load i18n %}
+
+{% block scripts %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            let medicineExpirationDatePicker = $('#medicineExpirationDatePicker').datepicker({
+                format: 'dd-mm-yyyy',todayBtn: "linked",todayHighlight: true, weekStart: 1
+            }).on('changeDate', function () {
+                $("#{{ add_medicine_form.inputExpirationDate.id_for_label }}").val($(this).datepicker('getFormattedDate'));
+            });
+            $("input[name='{{ add_medicine_form.inputMedicalType.name }}']").change(function () {
+                if ( $(this).val() == "Syrup" ) { $("#inputValidityRow").show(); } else { $("#inputValidityRow").hide(); }
+                if ( $(this).val() == "Tool" || $(this).val() == "Bandage" ) { $("#inputSterilityRow").show(); } else { $("#inputSterilityRow").hide(); }
+            });
+            $("#{{ add_medicine_form.medicineNeverExpires.id_for_label }}").change(function () {
+                if ( $("#{{ add_medicine_form.medicineNeverExpires.id_for_label }}").is(":checked") ) {
+                    medicineExpirationDatePicker.hide();
+                    $("#{{ add_medicine_form.inputExpirationDate.id_for_label }}").val("31-12-9999");
+                    $("#medicineExpirationNeverExpires").show();
+                } else {
+                    $("#{{ add_medicine_form.inputExpirationDate.id_for_label }}").val(medicineExpirationDatePicker.datepicker('getFormattedDate'));
+                    medicineExpirationDatePicker.show();
+                    $("#medicineExpirationNeverExpires").hide();
+                }
+            });
+            $(".inputValidityHelper").click(function () {
+                $("#{{ add_medicine_form.inputValidity.id_for_label }}").val($(this).val())
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block header %}
+    <div class="container">
+        <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'inventory:index' %}" >{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item active">{% trans "Add medicine" %}</li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2>{% trans "Add medicine" %}</h2>
+        <form method="post" action="{% url 'inventory:addMedicine' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ add_medicine_form.inputPharmaceutical.id_for_label }}">{% trans "Pharmaceutical type" %}</label>
+                {{ add_medicine_form.inputPharmaceutical }}
+            </div>
+            <div class="form-group">
+                <label for="medicalType">{% trans "Medical type" %}</label>
+                <div id="medicalType"  aria-describedby="inputMedicalTypeHelp">
+                    {% for radio in add_medicine_form.inputMedicalType %}
+                        <div class="form-check form-check-inline" style="width: 24%; margin: 0; padding: 0">
+                            {{ radio.tag }}
+                            <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label | safe }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <small id="inputMedicalTypeHelp" class="form-text text-muted">
+                    {% trans "The medicine type allows you to better classify the different medicines. Types represent :" %}
+                    <ul>
+                        <li><strong>{% trans "Pills" %}</strong>&colon;&nbsp;{% trans "Pill type represents all the medicines that must be consumed directly once opened (such as tabs, unidoses, ...)" %}</li>
+                        <li><strong>{% trans "Syrup" %}</strong>&colon;&nbsp;{% trans "Syrup type represents all the medicines that may be consumed over a longer period of time once opened (such as sprays, creams, ...)" %}</li>
+                        <li><strong>{% trans "Bandage" %}</strong>&colon;&nbsp;{% trans "Bandage type represents all the bandages that are used one time only or are washable" %}</li>
+                        <li><strong>{% trans "Tool" %}</strong>&colon;&nbsp;{% trans "Tool type represents all the medical tools such as scissors, pocket masks, ..." %}</li>
+                    </ul>
+                </small>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="{{ add_medicine_form.inputAmount.id_for_label }}">{% trans "Number of units" %}</label>
+                    {{ add_medicine_form.inputAmount }}
+                    <small id="inputAmountHelper" class="form-text text-muted">{% trans "Number of medicines in the box." %}</small>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="{{ add_medicine_form.inputExpirationDate.id_for_label }}">{% trans "Expiration date" %}</label>
+                    {{ add_medicine_form.inputExpirationDate }}
+                    <input type="text" id="medicineExpirationDatePicker" class="form-control datepicker {% if add_medicine_form.inputExpirationDate.errors %}is-invalid{% endif %}" placeholder="dd-mm-yyyy" />
+                    <input type="text" id="medicineExpirationNeverExpires" class="form-control" value="{% trans "-" %}" readonly="readonly" style="display: none" />
+                    {% if add_medicine_form.inputExpirationDate.errors %}<div class="invalid-feedback">{% trans "Please provide an expiration date" %}</div>{% endif %}
+                </div>
+                <div class="col-md-4 form-check-inline-margin">
+                    <div class="form-check form-check-inline">
+                        {{ add_medicine_form.medicineNeverExpires }}
+                        <label class="form-check-label" for="{{ add_medicine_form.medicineNeverExpires.id_for_label }}">{% trans "This medicine never expires" %}</label>
+                    </div>
+                </div>
+            </div>
+            <div id="inputValidityRow" class="form-row" style="display: none">
+                <div class="form-group col-md-4">
+                    <label for="{{ add_medicine_form.inputValidity.id_for_label }}">{% trans "Validity period" %}</label>
+                    {{ add_medicine_form.inputValidity }}
+                    <small id="inputValidityHelp" class="form-text text-muted">{% trans "Validity period in days after opening the medicine." %}</small>
+                </div>
+                <div class="form-group col-md-8" id="inputValidityHelpers">
+                    <div class="form-row">
+                        <label for="inputValidityHelpers">{% trans "Preset validity periods" %}</label>
+                    </div>
+                    <div class="btn-toolbar" aria-describedby="inputValidityHelpersHelp">
+                        <button type="button" class="btn btn-secondary mr-2 inputValidityHelper" value="7" title="{% trans "7 days" %}" role="option">{% trans "One Week" %}</button>
+                        <button type="button" class="btn btn-secondary mr-2 inputValidityHelper" value="31" title="{% trans "31 days" %}" role="option">{% trans "One Month" %}</button>
+                        <button type="button" class="btn btn-secondary mr-2 inputValidityHelper" value="182" title="{% trans "182 days" %}" role="option">{% trans "Six Months" %}</button>
+                        <button type="button" class="btn btn-secondary mr-2 inputValidityHelper" value="365" title="{% trans "365 days" %}" role="option">{% trans "One Year" %}</button>
+                        <button type="button" class="btn btn-secondary mr-2 inputValidityHelper" value="1825" title="{% trans "1825 days" %}" role="option">{% trans "Five Years" %}</button>
+                        <button type="button" class="btn btn-secondary mr-2 inputValidityHelper" value="3650" title="{% trans "3650 days" %}" role="option">{% trans "Ten Years" %}</button>
+                    </div>
+                    <small id="inputValidityHelpersHelp" class="form-text text-muted">{% trans "Use the buttons to set the predifined duration in the validity period field." %}</small>
+                </div>
+            </div>
+            <div id="inputSterilityRow" style="display: none">
+                <div class="form-check">
+                    {{ add_medicine_form.inputSterility }}
+                    <label class="form-check-label" for="{{ add_medicine_form.inputSterility.id_for_label }}">{% trans "This medicine is sterile" %}</label>
+                </div>
+            </div>
+            <div class="form-group text-right">
+                <button type="submit" class="btn btn-primary">{% trans "Add medicine" %}</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
