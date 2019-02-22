@@ -34,7 +34,11 @@
                             {% endif %}
                         </td>
                         <td class="text-center">
-                            {{ stock.expirationDate | date:"d-m-Y" }}
+                            {% if stock.expirationDate|date:"d-m-Y" == '31-12-9999' %}
+                                {% trans "-" %}
+                            {% else %}
+                                {{ stock.expirationDate | date:"d-m-Y" }}
+                            {% endif %}
                         </td>
                         {% if stock.is_medicine_expired %}
                             {% if stock.validity is not None %}
