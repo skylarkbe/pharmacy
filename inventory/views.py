@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_protect
@@ -63,6 +64,32 @@ def open_syrup(request):
             syrup.openedDate=datetime.now()
             syrup.save()
     return redirect('inventory:index')
+
+
+def add_stock_unit(request):
+    medicine_id = request.GET['id'] if 'id' in request.GET else None
+    if medicine_id:
+        medicine=Medicine.objects.get(id=medicine_id)
+        if medicine:
+            medicine.amount=medicine.amount+1
+            medicine.save()
+            return HttpResponse(medicine.amount, content_type="text/plain")
+    return HttpResponseNotFound(medicine_id)
+
+
+def remove_stock_unit(request):
+    medicine_id = request.GET['id'] if 'id' in request.GET else None
+    if medicine_id:
+        medicine=Medicine.objects.get(id=medicine_id)
+        if medicine:
+            if medicine.amount > 0:
+                medicine.amount=medicine.amount-1
+                medicine.save()
+                return HttpResponse(medicine.amount, content_type="text/plain")
+            else:
+                medicine.delete()
+                return HttpResponse("DELETE", content_type="text/plain")
+    return HttpResponseNotFound(medicine_id)
 
 
 class AddPharmaceuticalView(TemplateView):

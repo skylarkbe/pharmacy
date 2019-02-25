@@ -9,6 +9,31 @@
                 let target = $(event.relatedTarget).attr("href");
                 $("#openSyrupConfirm").attr("href",target);
             });
+            $(".addStock").click(function (e) {
+                baseElement=$(this);
+                outElement=$(this).parent().parent().children(".stockContent");
+                jQuery.get( "{% url "inventory:addStockUnit" %}", { id: $(this).parent().parent().data("stockid") } ).done(function(data) {
+                    baseElement.parent().parent().children(".removeStockContainer").children(".removeStock").children("i").removeClass("ion-trash-a").addClass("ion-android-remove")
+                    outElement.html(data);
+                }).fail(function () {
+                    outElement.html("ERR");
+                });
+            });
+            $(".removeStock").click(function (e) {
+                baseElement=$(this);
+                outElement=$(this).parent().parent().children(".stockContent");
+                jQuery.get( "{% url "inventory:removeStockUnit" %}", { id: $(this).parent().parent().data("stockid") } ).done(function(data) {
+                    if ( data == "DELETE" ) {
+                        baseElement.parent().parent().remove()
+                        return
+                    } else if ( data == "0" ) {
+                        baseElement.children("i").removeClass("ion-android-remove").addClass("ion-trash-a")
+                    }
+                    outElement.html(data);
+                }).fail(function () {
+                    outElement.html("ERR");
+                });
+            });
         });
     </script>
 {% endblock %}
@@ -36,7 +61,7 @@
             <tbody>
                 {% for stock in all_stock %}
 
-                    <tr data-stockID="{{ stock.id }}">
+                    <tr data-stockid="{{ stock.id }}" class="dataLine">
                         <td>
                             {{ stock.type.name }}
                             {% if stock.validity is not None %}
@@ -65,14 +90,18 @@
                                 <td class="text-center table-success"><span title="{% trans 'Expires ' %}{{ stock.expirationDate | date:"d-m-Y" }}"><i class="ion-checkmark" ></i></span></td>
                             {% endif %}
                         {% endif %}
-                        <td class="text-center">{{ stock.amount }}</td>
+                        <td class="text-center stockContent">{{ stock.amount }}</td>
                         <td class="text-center table-dark">
                             <span title="{{ stock | to_class_name }}"><i class="{{ stock | get_icon_for_class }}"></i></span>
-                        <td class="text-center table-secondary">
-                            <button class="btn btn-link"><i class="ion-android-add"></i></button>
+                        <td class="text-center table-secondary addStockContainer">
+                            <button class="btn btn-link addStock"><i class="ion-android-add"></i></button>
                         </td>
-                        <td class="text-center table-secondary">
-                            <button class="btn btn-link"><i class="ion-android-remove"></i></button>
+                        <td class="text-center table-secondary removeStockContainer">
+                            {% if stock.amount > 0 %}
+                                <button class="btn btn-link removeStock"><i class="ion-android-remove"></i></button>
+                            {% else %}
+                                <button class="btn btn-link removeStock"><i class="ion-trash-a"></i></button>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
