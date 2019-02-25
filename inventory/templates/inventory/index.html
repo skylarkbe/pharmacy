@@ -2,6 +2,17 @@
 {% load i18n %}
 {% load model_name %}
 
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#confirmOpenSyrupModal").on('show.bs.modal', function (event) {
+                let target = $(event.relatedTarget).attr("href");
+                $("#openSyrupConfirm").attr("href",target);
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block header %}
     {% include "core/header_actions_and_filters.html" %}
     {% include "core/header_search.html" %}
@@ -30,7 +41,7 @@
                             {{ stock.type.name }}
                             {% if stock.validity is not None %}
                                 {% if stock.openedDate is None %}
-                                    <span title="{% trans 'Open' %}"><a href="#"><i class="ion-share" ></i></a></span>
+                                    <span title="{% trans 'Open' %}"><a href="{% url 'inventory:openSyrup' %}?id={{ stock.id }}" data-toggle="modal" data-target="#confirmOpenSyrupModal"><i class="ion-share" ></i></a></span>
                                 {% endif %}
                             {% endif %}
                         </td>
@@ -68,6 +79,25 @@
             </tbody>
         </table>
     </div>
+
+    <div class="modal fade" id="confirmOpenSyrupModal" tabindex="-1" role="dialog" aria-labelledby="{% trans "Confirm open syrup modal" %}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmOpenSyrupModalLabel">{% trans "Open syrup" %}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Cancel" %}"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>{% trans "This action will mark the syrup as opened and will start the validity period." %}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Cancel" %}</button>
+                    <a href="#" class="btn btn-primary" id="openSyrupConfirm">{% trans "Open syrup" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% else %}
     <div class="container">
         <p>{% trans "No medicine in the pharmacy" %}</p>

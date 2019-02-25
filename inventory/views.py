@@ -55,6 +55,16 @@ def active_validity_filters(request):
     return active_filter
 
 
+def open_syrup(request):
+    medicine_id=request.GET['id'] if 'id' in request.GET else None
+    if medicine_id:
+        syrup=Syrup.objects.get(id=medicine_id)
+        if syrup:
+            syrup.openedDate=datetime.now()
+            syrup.save()
+    return redirect('inventory:index')
+
+
 class AddPharmaceuticalView(TemplateView):
     template_name = "inventory/addPharmaceutical.html"
 
