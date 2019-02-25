@@ -3,9 +3,13 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/skylarkbe/pharmacy/master/LICENSE)
 [![GitHub All Releases](https://img.shields.io/github/downloads/skylarkbe/pharmacy/total.svg)](https://github.com/skylarkbe/pharmacy/archive/master.zip)
 
+This software is built with the [Django](https://www.djangoproject.com/) Framework and distributed under GPLv3. Framework documentation is available on the [official website](https://docs.djangoproject.com).
+
+## About
+
 Stock system for personal pharmacy tracking.
 
-This software is built with the [Django](https://www.djangoproject.com/) Framework and distributed under GPLv3. Framework documentation is available on the [official website](https://docs.djangoproject.com).
+![Application screenshot](https://github.com/skylarkbe/pharmacy/raw/aa897d23ebe3ff8b06fdf89b8a031c5d590909bd/inventory/static/inventory/img/homepage_preview.png)
 
 ## Dependencies
 The following dependencies are required to run the project properly:
