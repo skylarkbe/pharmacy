@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _trans
 
 from datetime import datetime
 
-from .constants import APPLICATION_FILTERS, MEDICINE_TYPE_FILTERS, MEDICINE_VALIDITY_FILTERS
+from .constants import APPLICATION_FILTERS, MEDICINE_TYPE_FILTERS
 from .forms import AddPharmaceuticalForm, AddMedicineForm
 from .models import Medicine, Pharmaceutical, Pill, Syrup, Tool, Bandage
 
@@ -16,13 +16,16 @@ def index(request):
     type_filters=active_type_filters(request)
     validity_filters=active_validity_filters(request)
 
+    search_term=request.GET['search'] if 'search' in request.GET else ""
+
     all_stock_types = Medicine.objects.filter(
-        subtype__in=type_filters
+        subtype__in=type_filters,
+        type__name__icontains=search_term
     ).select_subclasses()
 
     sub_stock = [obj for obj in all_stock_types if obj.is_medicine_expired() in validity_filters]
 
-    return render(request, 'inventory/index.html', {'all_stock': sub_stock})
+    return render(request, 'inventory/index.html', {'all_stock': sub_stock, 'input_search': search_term})
 
 
 def toggle_filter(request):

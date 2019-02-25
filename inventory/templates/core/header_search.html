@@ -1,11 +1,11 @@
 {% load i18n %}
 <div class="actionBar container">
-    <form>
+    <form method="get" action="{% url 'inventory:index' %}">
         <div class="form-group actions">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="{% trans "Search Medicine" %}">
+                <input type="text" name="search" class="form-control" value="{{ input_search }}" placeholder="{% trans "Search Medicine" %}">
                 <div class="input-group-append">
-                    <div class="input-group-text"><i class="ion-ios-search" ></i></div>
+                    <button type="submit" class="input-group-text" value=""><i class="ion-ios-search" ></i></button>
                 </div>
             </div>
         </div>
