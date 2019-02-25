@@ -7,13 +7,49 @@ from django.utils.translation import gettext as _trans
 
 from datetime import datetime
 
-from .models import Medicine, Pharmaceutical, Pill, Syrup, Tool, Bandage
+from .constants import APPLICATION_FILTERS, MEDICINE_TYPE_FILTERS, MEDICINE_VALIDITY_FILTERS
 from .forms import AddPharmaceuticalForm, AddMedicineForm
+from .models import Medicine, Pharmaceutical, Pill, Syrup, Tool, Bandage
 
 
 def index(request):
-    all_stock = Medicine.objects.all().select_subclasses()
-    return render(request, 'inventory/index.html', {'all_stock': all_stock})
+    type_filters=active_type_filters(request)
+    validity_filters=active_validity_filters(request)
+
+    all_stock_types = Medicine.objects.filter(
+        subtype__in=type_filters
+    ).select_subclasses()
+
+    sub_stock = [obj for obj in all_stock_types if obj.is_medicine_expired() in validity_filters]
+
+    return render(request, 'inventory/index.html', {'all_stock': sub_stock})
+
+
+def toggle_filter(request):
+    filter_name = request.GET['filter']
+    if filter_name in APPLICATION_FILTERS:
+        if request.session.get(filter_name, True):
+            request.session[filter_name] = False
+        else:
+            request.session[filter_name] = True
+    return redirect('inventory:index')
+
+
+def active_type_filters(request):
+    active_filter = []
+    for filter_name in MEDICINE_TYPE_FILTERS:
+        if request.session.get(filter_name, True):
+            active_filter.append(filter_name)
+    return active_filter
+
+
+def active_validity_filters(request):
+    active_filter = []
+    if request.session.get('show_not_expired', True):
+        active_filter.append(False)
+    if request.session.get('show_expired', True):
+        active_filter.append(True)
+    return active_filter
 
 
 class AddPharmaceuticalView(TemplateView):
@@ -65,9 +101,10 @@ class AddMedicineView(TemplateView):
         method_decorator(csrf_protect)
         add_medicine = AddMedicineForm(request.POST)
         if add_medicine.is_valid():
-            input_medical_type=add_medicine.cleaned_data['inputMedicalType']
+            input_medical_type = add_medicine.cleaned_data['inputMedicalType']
             if input_medical_type == "Pill":
                 pill = Pill(
+                    subtype='show_pills',
                     type=add_medicine.cleaned_data['inputPharmaceutical'],
                     amount=add_medicine.cleaned_data['inputAmount'],
                     insertDate=datetime.now(),
@@ -81,6 +118,7 @@ class AddMedicineView(TemplateView):
                 )
             elif input_medical_type == "Syrup":
                 syrup = Syrup(
+                    subtype='show_syrups',
                     type=add_medicine.cleaned_data['inputPharmaceutical'],
                     amount=add_medicine.cleaned_data['inputAmount'],
                     insertDate=datetime.now(),
@@ -95,6 +133,7 @@ class AddMedicineView(TemplateView):
                 )
             elif input_medical_type == "Bandage":
                 bandage = Bandage(
+                    subtype='show_bandages',
                     type=add_medicine.cleaned_data['inputPharmaceutical'],
                     amount=add_medicine.cleaned_data['inputAmount'],
                     insertDate=datetime.now(),
@@ -109,6 +148,7 @@ class AddMedicineView(TemplateView):
                 )
             elif input_medical_type == "Tool":
                 tool = Tool(
+                    subtype='show_tools',
                     type=add_medicine.cleaned_data['inputPharmaceutical'],
                     amount=add_medicine.cleaned_data['inputAmount'],
                     insertDate=datetime.now(),

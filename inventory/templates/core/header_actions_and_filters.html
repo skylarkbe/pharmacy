@@ -1,16 +1,57 @@
 {% load i18n %}
+{% load define_action %}
+
 <div class="actionBar container">
     <div class="row">
-        <div class="col text-left">
-            <a href="{% url 'inventory:addPharmaceutical' %}" class="btn btn-secondary"><i class="icon ion-android-add-circle"></i>{% trans "Add Pharmaceutical" %}</a>
-            <a href="{% url 'inventory:addMedicine' %}" class="btn btn-secondary"><i class="icon ion-android-add-circle"></i>{% trans "Add Medicine" %}</a>
+        <div class="actions col-md-6 text-left">
+            <a href="{% url 'inventory:addPharmaceutical' %}" class="btn btn-secondary mr-2"><i class="icon ion-android-add-circle"></i>{% trans "Add Pharmaceutical" %}</a>
+            <a href="{% url 'inventory:addMedicine' %}" class="btn btn-secondary mr-2"><i class="icon ion-android-add-circle"></i>{% trans "Add Medicine" %}</a>
         </div>
-        <div class="col text-right">
-            {% trans "Show" %}&colon;&nbsp;
-            <span title="{% trans "Syrup" %}" ><button type="button" class="btn btn-secondary"><i class="ion-ios-flask"></i></button></span>
-            <span title="{% trans "Pill" %}" ><button type="button" class="btn btn-secondary"><i class="ion-egg"></i></button></span>
-            <span title="{% trans "Bandage" %}" ><button type="button" class="btn btn-secondary"><i class="ion-ios-medkit"></i></button></span>
-            <span title="{% trans "Tool" %}" ><button type="button" class="btn btn-secondary"><i class="ion-scissors"></i></button></span>
+        <div class="actions col-md-6 text-right">
+            <span class="mr-2">{% trans "Type" %}&colon;</span>
+            <span title="{% trans "Syrup" %}" class="mr-1">
+                {%  define "btn-secondary" as syrup_class %}
+                {% if request.session.show_syrups is False %}
+                    {%  define "btn-light" as syrup_class %}
+                {% endif %}
+                <a href="{% url 'inventory:toggleFilter' %}?filter=show_syrups" class="btn {{ syrup_class }}"><i class="ion-ios-flask"></i></a>
+            </span>
+            <span title="{% trans "Pill" %}" class="mr-1">
+                {%  define "btn-secondary" as pill_class %}
+                {% if request.session.show_pills is False %}
+                    {%  define "btn-light" as pill_class %}
+                {% endif %}
+                <a href="{% url 'inventory:toggleFilter' %}?filter=show_pills" class="btn {{ pill_class }}"><i class="ion-egg"></i></a>
+            </span>
+            <span title="{% trans "Bandage" %}" class="mr-1">
+                {%  define "btn-secondary" as bandage_class %}
+                {% if request.session.show_bandages is False %}
+                    {%  define "btn-light" as bandage_class %}
+                {% endif %}
+                <a href="{% url 'inventory:toggleFilter' %}?filter=show_bandages" class="btn {{ bandage_class }}"><i class="ion-ios-medkit"></i></a>
+            </span>
+            <span title="{% trans "Tool" %}" class="mr-3">
+                {%  define "btn-secondary" as tool_class %}
+                {% if request.session.show_tools is False %}
+                    {%  define "btn-light" as tool_class %}
+                {% endif %}
+                <a href="{% url 'inventory:toggleFilter' %}?filter=show_tools" class="btn {{ tool_class }}"><i class="ion-scissors"></i></a>
+            </span>
+            <span class="mr-2">{% trans "Status" %}&colon;</span>
+            <span title="{% trans "Not expired" %}" class="mr-1">
+                {%  define "btn-secondary" as not_expired_class %}
+                {% if request.session.show_not_expired is False %}
+                    {%  define "btn-light" as not_expired_class %}
+                {% endif %}
+                <a href="{% url 'inventory:toggleFilter' %}?filter=show_not_expired" class="btn {{ not_expired_class }}"><i class="ion-checkmark"></i></a>
+            </span>
+            <span title="{% trans "Expired" %}" class="mr-2">
+                {%  define "btn-secondary" as expired_class %}
+                {% if request.session.show_expired is False %}
+                    {%  define "btn-light" as expired_class %}
+                {% endif %}
+                <a href="{% url 'inventory:toggleFilter' %}?filter=show_expired" class="btn {{ expired_class }}"><i class="ion-close"></i></a>
+            </span>
         </div>
     </div>
 </div>

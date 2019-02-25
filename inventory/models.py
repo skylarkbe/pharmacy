@@ -17,6 +17,7 @@ class Pharmaceutical(models.Model):
 
 class Medicine(models.Model):
     objects = InheritanceManager()
+    subtype = models.CharField(default="None", max_length=32)
     type = models.ForeignKey(Pharmaceutical, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(default=0)
     insertDate = models.DateField(auto_now_add=True)

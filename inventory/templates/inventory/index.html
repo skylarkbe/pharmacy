@@ -24,7 +24,8 @@
             </thead>
             <tbody>
                 {% for stock in all_stock %}
-                    <tr>
+
+                    <tr data-stockID="{{ stock.id }}">
                         <td>
                             {{ stock.type.name }}
                             {% if stock.validity is not None %}
@@ -41,7 +42,7 @@
                             {% endif %}
                         </td>
                         {% if stock.is_medicine_expired %}
-                            {% if stock.validity is not None %}
+                            {% if stock.validity is not None and stock.openedDate is not None %}
                                 <td class="text-center table-danger"><span title="{% trans 'Expired after opening' %}"><i class="ion-clock" ></i></span></td>
                             {% else %}
                                 <td class="text-center table-danger"><span title="{% trans 'Expired' %}"><i class="ion-close" ></i></span></td>
