@@ -35,7 +35,7 @@ RUN pip install -r dependencies.txt
 CMD ["python", "manage.py","migrate"]
 
 # Make sure the database is accessible
-RUN chown 776 ${DJANGO_SQLITE_DIR}/*
+RUN chmod 776 ${DJANGO_SQLITE_DIR}/*
 
 # Create superuser
 RUN python -c "import django; django.setup(); \
