@@ -34,6 +34,9 @@ RUN pip install -r dependencies.txt
 # Migrate DB
 CMD ["python", "manage.py","migrate"]
 
+# Make sure the database is accessible
+RUN chown 776 ${DJANGO_SQLITE_DIR}/*
+
 # Create superuser
 RUN python -c "import django; django.setup(); \
    from django.contrib.auth.management.commands.createsuperuser import get_user_model; \
