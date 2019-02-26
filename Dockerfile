@@ -36,6 +36,7 @@ COPY inventory $PROJECT_DIR/inventory
 RUN pip install -r dependencies.txt
 
 # Migrate DB
+CMD ["python", "manage.py","makemigrations "]
 CMD ["python", "manage.py","migrate"]
 
 # Create superuser
