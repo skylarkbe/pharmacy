@@ -31,12 +31,10 @@ COPY inventory $PROJECT_DIR/inventory
 
 RUN pip install -r dependencies.txt
 
-#  Create DB PATH
-RUN mkdir -p ${DJANGO_SQLITE_DIR}
-RUN chmod 776 ${DJANGO_SQLITE_DIR}
-
 # Migrate DB
 CMD ["python", "manage.py","migrate"]
+
+RUN ls -l ${DJANGO_SQLITE_DIR}
 
 # Make sure the database is accessible
 RUN chmod 776 ${DJANGO_SQLITE_DIR}/*
