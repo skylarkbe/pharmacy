@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
@@ -13,6 +14,7 @@ from .forms import AddPharmaceuticalForm, AddMedicineForm
 from .models import Medicine, Pharmaceutical, Pill, Syrup, Tool, Bandage
 
 
+@login_required
 def index(request):
     type_filters=active_type_filters(request)
     validity_filters=active_validity_filters(request)
@@ -29,6 +31,7 @@ def index(request):
     return render(request, 'inventory/index.html', {'all_stock': sub_stock, 'input_search': search_term})
 
 
+@login_required
 def toggle_filter(request):
     filter_name = request.GET['filter']
     if filter_name in APPLICATION_FILTERS:
@@ -56,6 +59,7 @@ def active_validity_filters(request):
     return active_filter
 
 
+@login_required
 def open_syrup(request):
     medicine_id=request.GET['id'] if 'id' in request.GET else None
     if medicine_id:
@@ -66,6 +70,7 @@ def open_syrup(request):
     return redirect('inventory:index')
 
 
+@login_required
 def add_stock_unit(request):
     medicine_id = request.GET['id'] if 'id' in request.GET else None
     if medicine_id:
@@ -77,6 +82,7 @@ def add_stock_unit(request):
     return HttpResponseNotFound(medicine_id)
 
 
+@login_required
 def remove_stock_unit(request):
     medicine_id = request.GET['id'] if 'id' in request.GET else None
     if medicine_id:

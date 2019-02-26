@@ -45,7 +45,7 @@
                 {% endif %}
                 <a href="{% url 'inventory:toggleFilter' %}?filter=show_not_expired" class="btn {{ not_expired_class }}"><i class="ion-checkmark"></i></a>
             </span>
-            <span title="{% trans "Expired" %}" class="mr-2">
+            <span title="{% trans "Expired" %}" class="">
                 {%  define "btn-secondary" as expired_class %}
                 {% if request.session.show_expired is False %}
                     {%  define "btn-light" as expired_class %}

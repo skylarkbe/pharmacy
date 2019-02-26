@@ -1,0 +1,39 @@
+{% extends "public/global.html" %}
+{% load i18n %}
+
+{% block content %}
+    <div class="container">
+        <p>{% trans "Welcome to myPharmacy, please authenticate before accessing the stock application" %}</p>
+    </div>
+    <div class="container mt-5">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-5">
+                <div class="card">
+                    <div class="card-header">
+                        {% trans "Login" %}
+                    </div>
+                    <div class="card-body">
+                        <form method="post" class="loginForm">
+                            {% csrf_token %}
+                            <div class="form-group row">
+                                <label for="{{ form.username.id_for_label }}" class="col-sm-4 col-form-label">{% trans "Username" %}</label>
+                                <div class="col-sm-3">
+                                    {{ form.username }}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="{{ form.password.id_for_label }}" class="col-sm-4 col-form-label">{% trans "Password" %}</label>
+                                <div class="col-sm-3">
+                                    {{ form.password }}
+                                </div>
+                            </div>
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-primary">{% trans "Login" %}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
