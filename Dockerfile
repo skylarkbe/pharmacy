@@ -24,6 +24,8 @@ ENV DJANGO_DB_NAME="default"
 RUN mkdir -p $DJANGO_SQLITE_DIR
 RUN mkdir -p $PROJECT_DIR
 
+VOLUME $DJANGO_SQLITE_DIR
+
 WORKDIR $PROJECT_DIR
 
 COPY dependencies.txt .
@@ -35,11 +37,6 @@ RUN pip install -r dependencies.txt
 
 # Migrate DB
 CMD ["python", "manage.py","migrate"]
-
-RUN ls -l ${DJANGO_SQLITE_DIR}
-
-# Make sure the database is accessible
-RUN chmod 776 ${DJANGO_SQLITE_DIR}/*
 
 # Create superuser
 RUN python -c "import django; django.setup(); \
