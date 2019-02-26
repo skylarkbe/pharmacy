@@ -6,10 +6,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3#&&bh^6=t&pqo&(wn3!cub+womdir2qg161ztb9q*^$=0t2)a'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '3#&&bh^6=t&pqo&(wn3!cub+womdir2qg161ztb9q*^$=0t2)a')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = []
 
@@ -63,7 +63,7 @@ WSGI_APPLICATION = 'pharmacy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(os.environ.get('DJANGO_SQLITE_DIR', BASE_DIR), 'db.sqlite3'),
     }
 }
 

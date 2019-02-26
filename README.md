@@ -16,6 +16,12 @@ The following dependencies are required to run the project properly:
 * [Django core](https://pypi.org/project/Django/) ( Run `pip install django` to install )
 * [Django model utils](https://pypi.org/project/django-model-utils/) ( Run `pip install django-model-utils` to install )
 
+## System variables
+The following system variables should be set to run the program in production:
+* **DJANGO_SECRET_KEY** : This is a large random value used for CSRF protection etc. It is important that the key used in production is not in source control or accessible outside the production server.
+* **DJANGO_DEBUG** : This should be set as False in production. This stops the sensitive/confidential debug trace and variable information from being displayed.
+* **DJANGO_SQLITE_DIR** : This app runs with a SQLITE3 filesystem database. Use this parameter to customize the path where it is stored.
+
 ## Tips and tricks
 * Run `py manage.py makemigrations` to create database migrations, then `py manage.py migrate` to apply them
 * First user (superadmin) can be created by `py manage.py createsuperuser`
