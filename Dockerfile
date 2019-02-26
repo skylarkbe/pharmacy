@@ -38,14 +38,7 @@ RUN pip install -r dependencies.txt
 # Migrate DB
 CMD ["python", "manage.py","makemigrations "]
 CMD ["python", "manage.py","migrate"]
-
-# Create superuser
-RUN python -c "import django; django.setup(); \
-   from django.contrib.auth.management.commands.createsuperuser import get_user_model; \
-   get_user_model()._default_manager.db_manager('$DJANGO_DB_NAME').create_superuser( \
-   username='$DJANGO_USER', \
-   email='$USER_MAIL', \
-   password='$DJANGO_PASSWORD')"
+CMD ["python", "manage.py","createcustomsuperuser","--user=${USER}","--password=${PASSWORD}","--email=${USER_MAIL}"]
 
 # Server
 EXPOSE 8000
