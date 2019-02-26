@@ -5,7 +5,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autocl
 
 # Project Files and Settings
 ARG PROJECT=myPharmacy
-ARG PROJECT_DIR=/var/www/${PROJECT}
+ARG PROJECT_DIR=/var/www/myPharmacy
 ARG USER=admin
 ARG PASSWORD=nimda
 ARG USER_MAIL=admin@test.com
@@ -22,7 +22,12 @@ ENV DJANGO_SETTINGS_MODULE="pharmacy.settings"
 
 RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
+
 COPY dependencies.txt .
+COPY manage.py $PROJECT_DIR/
+COPY pharmacy $PROJECT_DIR/pharmacy
+COPY inventory $PROJECT_DIR/inventory
+
 RUN pip install -r dependencies.txt
 
 # Migrate DB
